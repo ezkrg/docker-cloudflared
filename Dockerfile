@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-ARG CLOUDFLARED_VERSION="2019.11.3"
+ARG CLOUDFLARED_VERSION="2019.12.0"
 
 RUN apk --update --no-cache add ca-certificates \
  && apk --update --no-cache --virtual .build-deps add \
