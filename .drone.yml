@@ -4,7 +4,7 @@ type: docker
 name: default
 
 steps:
-  - name: test
+  - name: release
     image: plugins/docker
     settings:
       username:
@@ -12,9 +12,14 @@ steps:
       password:
         from_secret: DHP
       repo: ezkrg/cloudflared
-      tags: latest
+      tags:
+        - ${DRONE_TAG}
+        - latest
+      when:
+        event:
+          - tag
 ---
 kind: signature
-hmac: f478edd8abef3175f5720622b9fe80273549e009e1d68c487e37daa16c4c6394
+hmac: baa59daff6995971bbb4f8ccc95e72ec1eb8b05d140437a110c67b6d5d4be211
 
 ...
