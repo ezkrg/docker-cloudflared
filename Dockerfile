@@ -1,19 +1,24 @@
-FROM alpine:3.10
+FROM golang:1.13-alpine as builder
 
-ARG CLOUDFLARED_VERSION="2020.2.0"
+ENV GO111MODULE=on
+ENV CGO_ENABLED=0
+ENV GOOS=linux
 
-RUN apk --update --no-cache add ca-certificates \
- && apk --update --no-cache --virtual .build-deps add \
-        git \
-        go \
-        build-base \
- && cd /tmp \
- && git clone -n https://github.com/cloudflare/cloudflared.git \
- && cd cloudflared \
- && git checkout ${CLOUDFLARED_VERSION} \
- && make cloudflared \
- && cp cloudflared /usr/local/bin/ \
- && rm -rf /tmp/* \
- && apk del .build-deps
+WORKDIR /go/src/github.com/cloudflare/cloudflared/
 
-CMD [ "/usr/local/bin/cloudflared" ]
+COPY cloudflared/ .
+
+RUN apk add --update --no-cache build-base git \
+ && make cloudflared
+
+# ---
+
+FROM alpine:3.11
+
+COPY --from=builder --chown=nobody /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/
+
+USER nobody
+
+ENTRYPOINT ["cloudflared", "--no-autoupdate"]
+
+CMD ["version"]

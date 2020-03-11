@@ -4,6 +4,18 @@ type: docker
 name: default
 
 steps:
+  - name: source
+    image: alpine:3.11
+    commands:
+      - apk add --update --no-cache curl git
+      - git clone -n https://github.com/cloudflare/cloudflared.git
+      - cd cloudflared
+      - LATEST=$(git describe --abbrev=0)
+      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/cloudflared/tags/${LATEST} > /dev/null; then exit 78; fi
+      - git checkout ${LATEST}
+      - cd ..
+      - echo -n "${LATEST},latest" > .tags
+
   - name: release
     image: plugins/docker
     settings:
@@ -12,14 +24,13 @@ steps:
       password:
         from_secret: DHP
       repo: ezkrg/cloudflared
-      tags:
-        - ${DRONE_TAG}
-        - latest
       when:
         event:
-          - tag
+          - cron
+        cron:
+          - nightly
 ---
 kind: signature
-hmac: baa59daff6995971bbb4f8ccc95e72ec1eb8b05d140437a110c67b6d5d4be211
+hmac: 0635184cda5d2234b30c00d08c7b1217314c8d42e55f22041f7ea842024a889d
 
 ...
