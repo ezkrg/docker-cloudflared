@@ -11,10 +11,10 @@ steps:
       - git clone -n https://github.com/cloudflare/cloudflared.git
       - cd cloudflared
       - LATEST=$(git describe --abbrev=0)
-      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/cloudflared/tags/${LATEST} > /dev/null; then exit 78; fi
-      - git checkout ${LATEST}
+      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/cloudflared/tags/$LATEST > /dev/null; then exit 78; fi
+      - git checkout $LATEST
       - cd ..
-      - echo -n "${LATEST},latest" > .tags
+      - echo -n "$LATEST,latest" > .tags
 
   - name: release
     image: plugins/docker
