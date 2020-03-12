@@ -26,12 +26,11 @@ steps:
       repo: ezkrg/cloudflared
       when:
         event:
-          - promote
           - cron
         cron:
           - nightly
 ---
 kind: signature
-hmac: cff292505046f2f2aa5168bd8390260ce24a9a5a93eb69829b89e3c8b730c382
+hmac: c93135d4f166e356a6d09e2a5a5cfa77726a31135ee2e59e2772658d0ded710f
 
 ...
