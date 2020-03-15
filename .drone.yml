@@ -11,7 +11,7 @@ steps:
       - git clone -n https://github.com/cloudflare/cloudflared.git
       - cd cloudflared
       - LATEST=$(git describe --abbrev=0)
-      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/cloudflared/tags/$LATEST > /dev/null; then exit 78; fi
+      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/cloudflared/tags/$LATEST > /dev/null; then echo "tag $LATEST already exist"; exit 78; fi
       - git checkout $LATEST
       - cd ..
       - echo -n "$LATEST,latest" > .tags
@@ -31,6 +31,6 @@ steps:
           - nightly
 ---
 kind: signature
-hmac: c93135d4f166e356a6d09e2a5a5cfa77726a31135ee2e59e2772658d0ded710f
+hmac: e00fd36ebfaae10cb9a5a775a9ba351421b5c2088fb22caeef50f4d3e5dc5b48
 
 ...
