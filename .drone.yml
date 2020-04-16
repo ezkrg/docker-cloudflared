@@ -24,13 +24,13 @@ steps:
       password:
         from_secret: DHP
       repo: ezkrg/cloudflared
-      when:
-        event:
-          - cron
-        cron:
-          - nightly
+    when:
+      event:
+      - cron
+      cron:
+      - nightly
 ---
 kind: signature
-hmac: e00fd36ebfaae10cb9a5a775a9ba351421b5c2088fb22caeef50f4d3e5dc5b48
+hmac: bb801c6f740fd5962c3f7480bbeb04d57fff36136660a23580fef367698b70e3
 
 ...
